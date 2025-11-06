@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Nova Paleta de Cores Suaves -->
+    <color name="primaryColor">#1976D2</color>      <!-- Azul Principal -->
+    <color name="primaryLightColor">#63A4FF</color>
+    <color name="primaryDarkColor">#004BA0</color>
+    <color name="secondaryColor">#FFC107</color>    <!-- Amarelo Âmbar como Acento -->
+    <color name="secondaryLightColor">#FFF350</color>
+    <color name="secondaryDarkColor">#C79100</color>
+    <color name="primaryTextColor">#FFFFFF</color>
+    <color name="secondaryTextColor">#000000</color>
+
+    <!-- Cores standard -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+</resources>

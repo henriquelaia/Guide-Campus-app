@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/navigation_map"
+        android:icon="@android:drawable/ic_dialog_map" 
+        android:title="@string/title_map" />
+
+    <item
+        android:id="@+id/navigation_professors"
+        android:icon="@android:drawable/ic_menu_myplaces"
+        android:title="@string/title_professors" />
+
+    <item
+        android:id="@+id/navigation_rooms"
+        android:icon="@android:drawable/ic_menu_search"
+        android:title="@string/title_rooms" />
+</menu>

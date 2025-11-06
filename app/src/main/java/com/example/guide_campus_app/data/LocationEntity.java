@@ -1,0 +1,21 @@
+package com.example.guide_campus_app.data;
+
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "locations")
+public class LocationEntity {
+    @PrimaryKey(autoGenerate = true)
+    public int id;
+
+    public String name;
+    public String type;
+    public String shortDescription;
+    public String details;
+    public double latitude;
+    public double longitude;
+
+    // Novos campos
+    public String operatingHours; // Ex: "Seg-Sex: 09h-18h"
+    public String imageName;      // Nome do drawable da imagem (ex: "foto_engenharia")
+}

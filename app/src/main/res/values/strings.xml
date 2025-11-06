@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Campus Guide</string>
+    <string name="google_maps_key">AIzaSyDWGyoQPD9XIXLT49QIQuK3BAJM_P4KJWw</string>
+
+    <string name="title_map">Mapa</string>
+    <string name="title_professors">Professores</string>
+    <string name="title_rooms">Salas</string>
+</resources>
