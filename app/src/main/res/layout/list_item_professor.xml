@@ -7,8 +7,11 @@
     android:layout_marginTop="4dp"
     android:layout_marginEnd="8dp"
     android:layout_marginBottom="4dp"
-    app:cardCornerRadius="8dp"
-    app:cardElevation="4dp">
+    app:cardBackgroundColor="@color/surfaceColor"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="2dp"
+    app:strokeColor="@color/surfaceTint"
+    app:strokeWidth="1dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -21,8 +24,11 @@
             android:id="@+id/professor_list_image"
             android:layout_width="56dp"
             android:layout_height="56dp"
-            android:scaleType="centerCrop"
-            android:src="@android:drawable/ic_menu_myplaces" />
+            android:background="@drawable/profile_image_background"
+            android:padding="8dp"
+            android:scaleType="centerInside"
+            android:src="@drawable/ic_people"
+            android:tint="@color/primaryColor" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -35,13 +41,33 @@
                 android:id="@+id/professor_list_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Headline6" />
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+                android:textColor="@color/onSurfaceColor"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/professor_list_department"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2" />
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/primaryColor" />
+
+            <TextView
+                android:id="@+id/professor_list_office"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/onSurfaceColor" />
+
+            <TextView
+                android:id="@+id/professor_list_email"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:textAppearance="@style/TextAppearance.MaterialComponents.Caption"
+                android:textColor="@color/onSurfaceColor" />
         </LinearLayout>
 
     </LinearLayout>

@@ -64,6 +64,8 @@ public class ProfessorDetailActivity extends AppCompatActivity {
             int imageResId = getResources().getIdentifier(professor.imageName, "drawable", getPackageName());
             if (imageResId != 0) {
                 professorImage.setImageResource(imageResId);
+            } else {
+                professorImage.setImageResource(R.drawable.ic_people);
             }
         }
     }

@@ -5,4 +5,10 @@
     <string name="title_map">Mapa</string>
     <string name="title_professors">Professores</string>
     <string name="title_rooms">Salas</string>
+    <string name="action_search">Pesquisar</string>
+    <string name="hint_search_location">Pesquisar local...</string>
+    <string name="hint_search_professor">Pesquisar por nome ou área...</string>
+    <string name="hint_search_room">Pesquisar sala ou edifício...</string>
+    <string name="label_departments">Departamentos</string>
+    <string name="action_view_details">Ver detalhes</string>
 </resources>

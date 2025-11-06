@@ -4,10 +4,9 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -17,6 +16,8 @@ import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.RoomDao;
 import com.example.guide_campus_app.data.RoomEntity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.List;
 
@@ -24,8 +25,8 @@ public class RoomSearchFragment extends Fragment {
 
     private RoomDao roomDao;
     private ListView listView;
-    private EditText searchEditText;
-    private ImageButton searchButton;
+    private TextInputEditText searchEditText;
+    private MaterialButton searchButton;
     private RoomAdapter adapter; // Usar o novo RoomAdapter
     private List<RoomEntity> roomList;
 
@@ -42,6 +43,13 @@ public class RoomSearchFragment extends Fragment {
         loadAllRooms();
 
         searchButton.setOnClickListener(v -> searchRooms());
+        searchEditText.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchRooms();
+                return true;
+            }
+            return false;
+        });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             RoomEntity room = roomList.get(position);

@@ -33,10 +33,12 @@ public class RoomAdapter extends ArrayAdapter<RoomEntity> {
 
         TextView codeView = listItemView.findViewById(R.id.room_list_code);
         TextView buildingView = listItemView.findViewById(R.id.room_list_building);
+        TextView descriptionView = listItemView.findViewById(R.id.room_list_description);
 
         if (currentRoom != null) {
             codeView.setText(currentRoom.code);
             buildingView.setText(currentRoom.building + " - Piso " + currentRoom.floor);
+            descriptionView.setText(currentRoom.description != null ? currentRoom.description : "");
         }
 
         return listItemView;

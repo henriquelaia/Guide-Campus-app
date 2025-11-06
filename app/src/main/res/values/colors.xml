@@ -10,6 +10,12 @@
     <color name="primaryTextColor">#FFFFFF</color>
     <color name="secondaryTextColor">#000000</color>
 
+    <color name="backgroundColor">#F5F7FA</color>
+    <color name="surfaceColor">#FFFFFFFF</color>
+    <color name="surfaceTint">#E3F2FD</color>
+    <color name="onSurfaceColor">#424242</color>
+    <color name="dividerSoft">#1F000000</color>
+
     <!-- Cores standard -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>

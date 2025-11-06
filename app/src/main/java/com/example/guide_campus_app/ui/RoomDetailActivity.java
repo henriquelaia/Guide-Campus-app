@@ -57,7 +57,7 @@ public class RoomDetailActivity extends AppCompatActivity {
             if (imageResId != 0) {
                 roomImage.setImageResource(imageResId);
             } else {
-                roomImage.setImageResource(R.mipmap.ic_launcher); // Imagem padrão
+                roomImage.setImageResource(R.drawable.ic_room); // Imagem padrão
             }
         }
     }

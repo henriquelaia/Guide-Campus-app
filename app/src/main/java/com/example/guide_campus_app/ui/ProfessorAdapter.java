@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 
 import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.ProfessorEntity;
@@ -35,17 +36,25 @@ public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
         ImageView imageView = listItemView.findViewById(R.id.professor_list_image);
         TextView nameView = listItemView.findViewById(R.id.professor_list_name);
         TextView departmentView = listItemView.findViewById(R.id.professor_list_department);
+        TextView officeView = listItemView.findViewById(R.id.professor_list_office);
+        TextView emailView = listItemView.findViewById(R.id.professor_list_email);
 
         if (currentProfessor != null) {
             nameView.setText(currentProfessor.name);
             departmentView.setText(currentProfessor.department);
+            officeView.setText(currentProfessor.office);
+            emailView.setText(currentProfessor.email);
 
-            int imageResId = getContext().getResources().getIdentifier(currentProfessor.imageName, "drawable", getContext().getPackageName());
+            int imageResId = getContext()
+                    .getResources()
+                    .getIdentifier(currentProfessor.imageName, "drawable", getContext().getPackageName());
             if (imageResId != 0) {
                 imageView.setImageResource(imageResId);
+                imageView.setColorFilter(null);
             } else {
                 // Imagem padrão caso não encontre
-                imageView.setImageResource(R.mipmap.ic_launcher);
+                imageView.setImageResource(R.drawable.ic_people);
+                imageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.primaryColor));
             }
         }
 

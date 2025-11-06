@@ -55,6 +55,8 @@ public class LocationDetailActivity extends AppCompatActivity {
             int imageResId = getResources().getIdentifier(location.imageName, "drawable", getPackageName());
             if (imageResId != 0) {
                 locationImage.setImageResource(imageResId);
+            } else {
+                locationImage.setImageResource(R.drawable.ic_map);
             }
         }
     }

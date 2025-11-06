@@ -4,9 +4,11 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
-import android.widget.ImageButton;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
+
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -31,8 +33,8 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
 
     private GoogleMap mMap;
     private LocationDao locationDao;
-    private EditText searchEditText;
-    private ImageButton searchButton;
+    private TextInputEditText searchEditText;
+    private MaterialButton searchButton;
 
     // Coordenadas do Polo I da UBI para centrar o mapa
     private final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
@@ -46,6 +48,14 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
 
         searchEditText = view.findViewById(R.id.search_text);
         searchButton = view.findViewById(R.id.search_button);
+
+        searchEditText.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                searchLocation();
+                return true;
+            }
+            return false;
+        });
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -69,8 +79,25 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     private void loadLocationsOnMap() {
+        if (mMap == null) {
+            return;
+        }
+
         List<LocationEntity> locations = locationDao.getAll();
         if (locations == null || locations.isEmpty()) return;
+
+        mMap.clear();
+
+        if (locations.size() == 1) {
+            LocationEntity location = locations.get(0);
+            LatLng singlePoint = new LatLng(location.latitude, location.longitude);
+            Marker marker = mMap.addMarker(new MarkerOptions().position(singlePoint).title(location.name).snippet(location.shortDescription));
+            if (marker != null) {
+                marker.setTag(location.id);
+            }
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(singlePoint, 17f));
+            return;
+        }
 
         // Este código irá ajustar o zoom para mostrar todos os pontos depois de carregar
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -88,6 +115,10 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
     }
 
     private void searchLocation() {
+        if (mMap == null) {
+            return;
+        }
+
         String query = searchEditText.getText().toString().trim();
         if (query.isEmpty()) return;
 

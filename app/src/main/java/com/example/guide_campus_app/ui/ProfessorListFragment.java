@@ -6,11 +6,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +19,8 @@ import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.ProfessorDao;
 import com.example.guide_campus_app.data.ProfessorEntity;
+import com.google.android.material.button.MaterialButton;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +29,8 @@ public class ProfessorListFragment extends Fragment {
 
     private ProfessorDao professorDao;
     private ListView listView;
-    private EditText searchEditText;
-    private ImageButton searchButton;
+    private TextInputEditText searchEditText;
+    private MaterialButton searchButton;
     private Spinner departmentSpinner;
     private ProfessorAdapter adapter;
     private List<ProfessorEntity> fullProfessorList;
@@ -51,6 +52,13 @@ public class ProfessorListFragment extends Fragment {
         updateListView(fullProfessorList);
 
         searchButton.setOnClickListener(v -> filterList());
+        searchEditText.setOnEditorActionListener((textView, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                filterList();
+                return true;
+            }
+            return false;
+        });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             ProfessorEntity professor = (ProfessorEntity) parent.getItemAtPosition(position);

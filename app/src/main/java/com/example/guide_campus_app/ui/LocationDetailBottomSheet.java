@@ -40,6 +40,7 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
         TextView name = view.findViewById(R.id.location_name);
         TextView type = view.findViewById(R.id.location_type);
         TextView shortDescription = view.findViewById(R.id.location_short_description);
+        TextView hoursView = view.findViewById(R.id.location_hours);
         Button detailsButton = view.findViewById(R.id.view_details_button);
 
         if (getArguments() != null) {
@@ -50,6 +51,7 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
                 name.setText(location.name);
                 type.setText(location.type);
                 shortDescription.setText(location.shortDescription);
+                hoursView.setText(location.operatingHours);
 
                 detailsButton.setOnClickListener(v -> {
                     // Abrir a nova Activity de detalhes
