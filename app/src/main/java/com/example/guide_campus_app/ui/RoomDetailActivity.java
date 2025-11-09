@@ -3,7 +3,6 @@ package com.example.guide_campus_app.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.RoomEntity;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class RoomDetailActivity extends AppCompatActivity {
 
@@ -39,26 +37,21 @@ public class RoomDetailActivity extends AppCompatActivity {
             return;
         }
 
-        RoomEntity room = CampusDatabase.getInstance(this).roomDao().getById(roomId); // Assumes getById exists
+        RoomEntity room = CampusDatabase.getInstance(this).roomDao().getById(roomId);
 
-        CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
-        ImageView roomImage = findViewById(R.id.room_image);
+        TextView campus = findViewById(R.id.room_campus);
         TextView building = findViewById(R.id.room_building);
         TextView floor = findViewById(R.id.room_floor);
+        TextView type = findViewById(R.id.room_type);
         TextView description = findViewById(R.id.room_description);
 
         if (room != null) {
-            toolbarLayout.setTitle(room.code);
+            getSupportActionBar().setTitle(room.name + " (" + room.code + ")");
+            campus.setText("Polo " + room.campus);
             building.setText(room.building);
             floor.setText("Piso: " + room.floor);
+            type.setText(room.type);
             description.setText(room.description);
-
-            int imageResId = getResources().getIdentifier(room.imageName, "drawable", getPackageName());
-            if (imageResId != 0) {
-                roomImage.setImageResource(imageResId);
-            } else {
-                roomImage.setImageResource(R.mipmap.ic_launcher); // Imagem padrão
-            }
         }
     }
 

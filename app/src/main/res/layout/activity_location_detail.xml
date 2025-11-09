@@ -66,6 +66,14 @@
                 android:layout_marginTop="4dp" />
 
             <TextView
+                android:id="@+id/location_hours_notes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="?android:attr/textColorSecondary" />
+
+            <TextView
                 android:id="@+id/location_details_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

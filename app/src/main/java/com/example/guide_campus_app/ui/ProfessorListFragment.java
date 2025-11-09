@@ -1,13 +1,14 @@
 package com.example.guide_campus_app.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -29,7 +30,6 @@ public class ProfessorListFragment extends Fragment {
     private ProfessorDao professorDao;
     private ListView listView;
     private EditText searchEditText;
-    private ImageButton searchButton;
     private Spinner departmentSpinner;
     private ProfessorAdapter adapter;
     private List<ProfessorEntity> fullProfessorList;
@@ -42,15 +42,24 @@ public class ProfessorListFragment extends Fragment {
         professorDao = CampusDatabase.getInstance(getContext()).professorDao();
         listView = view.findViewById(R.id.professors_list_view);
         searchEditText = view.findViewById(R.id.search_text);
-        searchButton = view.findViewById(R.id.search_button);
         departmentSpinner = view.findViewById(R.id.department_spinner);
 
-        // Carregar todos os professores para a lista principal
         fullProfessorList = professorDao.getAll();
         setupDepartmentSpinner();
         updateListView(fullProfessorList);
 
-        searchButton.setOnClickListener(v -> filterList());
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             ProfessorEntity professor = (ProfessorEntity) parent.getItemAtPosition(position);
@@ -62,7 +71,7 @@ public class ProfessorListFragment extends Fragment {
 
     private void setupDepartmentSpinner() {
         List<String> departments = professorDao.getUniqueDepartments();
-        departments.add(0, "Todos os Departamentos"); // Adicionar opção para mostrar todos
+        departments.add(0, "Todos os Departamentos");
 
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, departments);
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -71,7 +80,7 @@ public class ProfessorListFragment extends Fragment {
         departmentSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                filterList(); // Filtrar a lista sempre que um departamento for selecionado
+                filterList();
             }
 
             @Override
@@ -85,7 +94,6 @@ public class ProfessorListFragment extends Fragment {
 
         List<ProfessorEntity> filteredList = new ArrayList<>();
 
-        // 1. Filtrar por departamento
         List<ProfessorEntity> listToSearch = new ArrayList<>();
         if (selectedDepartment.equals("Todos os Departamentos")) {
             listToSearch.addAll(fullProfessorList);
@@ -97,7 +105,6 @@ public class ProfessorListFragment extends Fragment {
             }
         }
 
-        // 2. Filtrar por texto de pesquisa
         if (searchQuery.isEmpty()) {
             filteredList.addAll(listToSearch);
         } else {
@@ -109,7 +116,8 @@ public class ProfessorListFragment extends Fragment {
         }
         
         if (filteredList.isEmpty()) {
-            Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
+            // Opcional: mostrar mensagem de "sem resultados", mas pode ser incomodativo com autocomplete
+            // Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
         }
 
         updateListView(filteredList);

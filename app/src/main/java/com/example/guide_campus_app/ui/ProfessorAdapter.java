@@ -5,7 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,21 +31,12 @@ public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
 
         ProfessorEntity currentProfessor = getItem(position);
 
-        ImageView imageView = listItemView.findViewById(R.id.professor_list_image);
         TextView nameView = listItemView.findViewById(R.id.professor_list_name);
         TextView departmentView = listItemView.findViewById(R.id.professor_list_department);
 
         if (currentProfessor != null) {
             nameView.setText(currentProfessor.name);
             departmentView.setText(currentProfessor.department);
-
-            int imageResId = getContext().getResources().getIdentifier(currentProfessor.imageName, "drawable", getContext().getPackageName());
-            if (imageResId != 0) {
-                imageView.setImageResource(imageResId);
-            } else {
-                // Imagem padrão caso não encontre
-                imageView.setImageResource(R.mipmap.ic_launcher);
-            }
         }
 
         return listItemView;

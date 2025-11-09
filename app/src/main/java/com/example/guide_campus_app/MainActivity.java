@@ -1,6 +1,7 @@
 package com.example.guide_campus_app;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -12,6 +13,7 @@ import com.example.guide_campus_app.data.SampleData;
 import com.example.guide_campus_app.ui.CampusMapFragment;
 import com.example.guide_campus_app.ui.ProfessorListFragment;
 import com.example.guide_campus_app.ui.RoomSearchFragment;
+import com.example.guide_campus_app.ui.SettingsFragment;
 import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -25,18 +27,34 @@ public class MainActivity extends AppCompatActivity implements BottomNavigationV
         MaterialToolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // Inicializar a base de dados e popular com dados de exemplo
         CampusDatabase db = CampusDatabase.getInstance(this);
         SampleData.populateIfEmpty(db);
 
         BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
         bottomNav.setOnItemSelectedListener(this);
 
-        // Carregar o fragmento inicial
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, new CampusMapFragment()).commit();
             bottomNav.setSelectedItemId(R.id.navigation_map);
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main_menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_settings) {
+            getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new SettingsFragment())
+                .addToBackStack(null)
+                .commit();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override

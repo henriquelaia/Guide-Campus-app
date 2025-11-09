@@ -6,7 +6,7 @@ import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 
-@Database(entities = {LocationEntity.class, ProfessorEntity.class, RoomEntity.class}, version = 4, exportSchema = false) // VERSÃO ATUALIZADA PARA 4
+@Database(entities = {LocationEntity.class, ProfessorEntity.class, RoomEntity.class}, version = 7, exportSchema = false) // VERSÃO ATUALIZADA PARA 7
 public abstract class CampusDatabase extends RoomDatabase {
 
     public abstract LocationDao locationDao();

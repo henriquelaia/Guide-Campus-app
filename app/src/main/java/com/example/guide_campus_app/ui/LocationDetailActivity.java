@@ -5,10 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-
 import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.LocationEntity;
@@ -35,7 +33,7 @@ public class LocationDetailActivity extends AppCompatActivity {
 
         int locationId = getIntent().getIntExtra(EXTRA_LOCATION_ID, -1);
         if (locationId == -1) {
-            finish(); // Termina a activity se não houver ID
+            finish();
             return;
         }
 
@@ -44,14 +42,15 @@ public class LocationDetailActivity extends AppCompatActivity {
         CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
         ImageView locationImage = findViewById(R.id.location_image);
         TextView locationHours = findViewById(R.id.location_hours);
+        TextView locationHoursNotes = findViewById(R.id.location_hours_notes);
         TextView locationDetails = findViewById(R.id.location_details);
 
         if (location != null) {
             toolbarLayout.setTitle(location.name);
             locationHours.setText(location.operatingHours);
+            locationHoursNotes.setText(location.hoursNotes);
             locationDetails.setText(location.details);
 
-            // Carregar a imagem a partir do nome do drawable
             int imageResId = getResources().getIdentifier(location.imageName, "drawable", getPackageName());
             if (imageResId != 0) {
                 locationImage.setImageResource(imageResId);
@@ -61,7 +60,7 @@ public class LocationDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed(); // Trata do clique no botão de voltar
+        onBackPressed();
         return true;
     }
 }

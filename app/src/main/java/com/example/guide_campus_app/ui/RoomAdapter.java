@@ -31,12 +31,16 @@ public class RoomAdapter extends ArrayAdapter<RoomEntity> {
 
         RoomEntity currentRoom = getItem(position);
 
-        TextView codeView = listItemView.findViewById(R.id.room_list_code);
-        TextView buildingView = listItemView.findViewById(R.id.room_list_building);
+        TextView nameView = listItemView.findViewById(R.id.room_list_name);
+        TextView detailsView = listItemView.findViewById(R.id.room_list_details);
 
         if (currentRoom != null) {
-            codeView.setText(currentRoom.code);
-            buildingView.setText(currentRoom.building + " - Piso " + currentRoom.floor);
+            nameView.setText(currentRoom.name + " (" + currentRoom.code + ")");
+            String details = "Polo " + currentRoom.campus + " | " + currentRoom.building;
+            if (currentRoom.floor != null && !currentRoom.floor.isEmpty()) {
+                details += " | Piso " + currentRoom.floor;
+            }
+            detailsView.setText(details);
         }
 
         return listItemView;

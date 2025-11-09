@@ -1,12 +1,16 @@
 package com.example.guide_campus_app.ui;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +22,7 @@ import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.RoomDao;
 import com.example.guide_campus_app.data.RoomEntity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RoomSearchFragment extends Fragment {
@@ -25,9 +30,9 @@ public class RoomSearchFragment extends Fragment {
     private RoomDao roomDao;
     private ListView listView;
     private EditText searchEditText;
-    private ImageButton searchButton;
-    private RoomAdapter adapter; // Usar o novo RoomAdapter
-    private List<RoomEntity> roomList;
+    private Spinner campusSpinner;
+    private RoomAdapter adapter;
+    private List<RoomEntity> fullRoomList;
 
     @Nullable
     @Override
@@ -37,41 +42,83 @@ public class RoomSearchFragment extends Fragment {
         roomDao = CampusDatabase.getInstance(getContext()).roomDao();
         listView = view.findViewById(R.id.rooms_list_view);
         searchEditText = view.findViewById(R.id.search_text);
-        searchButton = view.findViewById(R.id.search_button);
+        campusSpinner = view.findViewById(R.id.campus_spinner);
 
-        loadAllRooms();
+        fullRoomList = roomDao.getAll();
+        setupCampusSpinner();
+        updateListView(fullRoomList);
 
-        searchButton.setOnClickListener(v -> searchRooms());
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                filterList();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) { }
+        });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
-            RoomEntity room = roomList.get(position);
+            RoomEntity room = (RoomEntity) parent.getItemAtPosition(position);
             startActivity(RoomDetailActivity.newIntent(getContext(), room.id));
         });
 
         return view;
     }
 
-    private void loadAllRooms() {
-        roomList = roomDao.getAll();
-        updateListView(roomList);
+    private void setupCampusSpinner() {
+        List<String> campuses = roomDao.getUniqueCampuses();
+        campuses.add(0, "Todos os Polos");
+
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_spinner_item, campuses);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        campusSpinner.setAdapter(spinnerAdapter);
+
+        campusSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                filterList();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) { }
+        });
     }
 
-    private void searchRooms() {
-        String query = searchEditText.getText().toString().trim();
-        if (query.isEmpty()) {
-            loadAllRooms();
-            return;
+    private void filterList() {
+        String selectedCampus = campusSpinner.getSelectedItem().toString();
+        String searchQuery = searchEditText.getText().toString().trim().toLowerCase();
+
+        List<RoomEntity> filteredList = new ArrayList<>();
+
+        List<RoomEntity> listToSearch = new ArrayList<>();
+        if (selectedCampus.equals("Todos os Polos")) {
+            listToSearch.addAll(fullRoomList);
+        } else {
+            for (RoomEntity room : fullRoomList) {
+                if (room.campus.equals(selectedCampus)) {
+                    listToSearch.add(room);
+                }
+            }
         }
 
-        roomList = roomDao.search("%" + query + "%");
-        if (roomList.isEmpty()) {
-            Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
+        if (searchQuery.isEmpty()) {
+            filteredList.addAll(listToSearch);
+        } else {
+            for (RoomEntity room : listToSearch) {
+                if (room.name.toLowerCase().contains(searchQuery) || room.code.toLowerCase().contains(searchQuery)) {
+                    filteredList.add(room);
+                }
+            }
         }
-        updateListView(roomList);
+
+        updateListView(filteredList);
     }
 
     private void updateListView(List<RoomEntity> rooms) {
-        // Usar o novo RoomAdapter
         adapter = new RoomAdapter(getContext(), rooms);
         listView.setAdapter(adapter);
     }

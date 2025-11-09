@@ -3,7 +3,6 @@ package com.example.guide_campus_app.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -12,7 +11,6 @@ import androidx.appcompat.widget.Toolbar;
 import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.ProfessorEntity;
-import com.google.android.material.appbar.CollapsingToolbarLayout;
 
 public class ProfessorDetailActivity extends AppCompatActivity {
 
@@ -39,10 +37,8 @@ public class ProfessorDetailActivity extends AppCompatActivity {
             return;
         }
 
-        ProfessorEntity professor = CampusDatabase.getInstance(this).professorDao().getById(professorId); // Assumes getById exists
+        ProfessorEntity professor = CampusDatabase.getInstance(this).professorDao().getById(professorId);
 
-        CollapsingToolbarLayout toolbarLayout = findViewById(R.id.toolbar_layout);
-        ImageView professorImage = findViewById(R.id.professor_image);
         TextView department = findViewById(R.id.professor_department);
         TextView courses = findViewById(R.id.professor_courses);
         TextView subjects = findViewById(R.id.professor_subjects);
@@ -52,7 +48,7 @@ public class ProfessorDetailActivity extends AppCompatActivity {
         TextView notes = findViewById(R.id.professor_notes);
 
         if (professor != null) {
-            toolbarLayout.setTitle(professor.name);
+            getSupportActionBar().setTitle(professor.name);
             department.setText(professor.department);
             courses.setText("Cursos: " + professor.courses);
             subjects.setText(professor.subjects);
@@ -60,11 +56,6 @@ public class ProfessorDetailActivity extends AppCompatActivity {
             phone.setText("Telefone: " + professor.phone);
             office.setText(professor.office);
             notes.setText(professor.notes);
-
-            int imageResId = getResources().getIdentifier(professor.imageName, "drawable", getPackageName());
-            if (imageResId != 0) {
-                professorImage.setImageResource(imageResId);
-            }
         }
     }
 

@@ -16,7 +16,6 @@ public class ProfessorEntity {
     public String notes;
 
     // Novos campos
-    public String imageName;      // Nome do drawable da imagem (ex: "prof_antonio_silva")
     public String courses;        // Cursos que leciona (ex: "Eng. Informática, Eng. Eletrotécnica")
     public String subjects;       // Cadeiras que leciona (ex: "Programação, Bases de Dados")
 }

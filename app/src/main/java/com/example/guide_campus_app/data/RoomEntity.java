@@ -9,12 +9,12 @@ public class RoomEntity {
     public int id;
 
     public String code;
+    public String name;
+    public String campus; // Novo campo para o Polo
     public String building;
+    public String type;   // Novo campo para o tipo de sala
     public String floor;
     public String description;
     public Double latitude;
     public Double longitude;
-
-    // Novo campo
-    public String imageName; // Nome da imagem específica da sala (ex: "sala_fe_8_1")
 }
