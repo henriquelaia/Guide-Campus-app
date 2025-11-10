@@ -1,49 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/room_detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.RoomDetailActivity">
+    android:fillViewport="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Theme.CampusGuide.AppBarOverlay">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/detail_toolbar"
+        <!-- FOTO DA SALA -->
+        <ImageView
+            android:id="@+id/room_photo"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/Theme.CampusGuide.PopupOverlay" />
+            android:layout_height="180dp"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_room_placeholder" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        <!-- Campos comuns; ajusta aos teus IDs se forem diferentes -->
+        <TextView
+            android:id="@+id/room_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:text="Nome / Código" />
 
-            <TextView android:id="@+id/room_campus" style="@style/TextAppearance.AppCompat.Headline" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/room_building" style="@style/TextAppearance.AppCompat.Subhead" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/room_floor" style="@style/TextAppearance.AppCompat.Subhead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/room_building"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Edifício" />
 
-            <TextView android:text="Tipo" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/room_type" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/room_campus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Polo" />
 
-            <TextView android:text="Descrição" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/room_description" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/room_floor"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Piso" />
 
-        </LinearLayout>
+        <TextView
+            android:id="@+id/room_details"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Detalhes" />
 
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        <!-- Espaço para não colidir com a bottom bar -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="72dp" />
+
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

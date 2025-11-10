@@ -3,10 +3,11 @@ package com.example.guide_campus_app.ui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 
 import com.example.guide_campus_app.R;
 import com.example.guide_campus_app.data.CampusDatabase;
@@ -14,50 +15,87 @@ import com.example.guide_campus_app.data.RoomEntity;
 
 public class RoomDetailActivity extends AppCompatActivity {
 
-    private static final String EXTRA_ROOM_ID = "extra_room_id";
+    public static final String EXTRA_ROOM_ID = "room_id";
 
+    // Factory method para ser usado pelos fragments
     public static Intent newIntent(Context context, int roomId) {
-        Intent intent = new Intent(context, RoomDetailActivity.class);
-        intent.putExtra(EXTRA_ROOM_ID, roomId);
-        return intent;
+        Intent i = new Intent(context, RoomDetailActivity.class);
+        i.putExtra(EXTRA_ROOM_ID, roomId);
+        return i;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_room_detail);
 
-        Toolbar toolbar = findViewById(R.id.detail_toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        ImageView photo = findViewById(R.id.room_photo);
+        TextView name = findViewById(R.id.room_name);
+        TextView building = findViewById(R.id.room_building);
+        TextView campus = findViewById(R.id.room_campus);
+        TextView floor = findViewById(R.id.room_floor);
+        TextView details = findViewById(R.id.room_details);
 
-        int roomId = getIntent().getIntExtra(EXTRA_ROOM_ID, -1);
-        if (roomId == -1) {
+        int id = getIntent().getIntExtra(EXTRA_ROOM_ID, -1);
+        if (id == -1) {
             finish();
             return;
         }
 
-        RoomEntity room = CampusDatabase.getInstance(this).roomDao().getById(roomId);
+        RoomEntity room = CampusDatabase
+                .getInstance(this)
+                .roomDao()
+                .getById(id);
 
-        TextView campus = findViewById(R.id.room_campus);
-        TextView building = findViewById(R.id.room_building);
-        TextView floor = findViewById(R.id.room_floor);
-        TextView type = findViewById(R.id.room_type);
-        TextView description = findViewById(R.id.room_description);
-
-        if (room != null) {
-            getSupportActionBar().setTitle(room.name + " (" + room.code + ")");
-            campus.setText("Polo " + room.campus);
-            building.setText(room.building);
-            floor.setText("Piso: " + room.floor);
-            type.setText(room.type);
-            description.setText(room.description);
+        if (room == null) {
+            finish();
+            return;
         }
-    }
 
-    @Override
-    public boolean onSupportNavigateUp() {
-        onBackPressed();
-        return true;
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle(room.name);
+        }
+
+        // Preenche campos principais
+        if (name != null) {
+            String text = room.name;
+            if (room.code != null && !room.code.isEmpty()) {
+                text += " (" + room.code + ")";
+            }
+            name.setText(text);
+        }
+
+        if (building != null) {
+            building.setText("Edifício: " + room.building);
+        }
+
+        if (campus != null) {
+            campus.setText("Polo: " + room.campus);
+        }
+
+        if (floor != null && room.floor != null && !room.floor.isEmpty()) {
+            floor.setText("Piso: " + room.floor);
+        }
+
+        // Campo "detalhes" no layout: usa uma descrição composta com info extra
+        if (details != null) {
+            StringBuilder sb = new StringBuilder();
+            sb.append("Edifício: ").append(room.building);
+            sb.append(" | Polo: ").append(room.campus);
+            if (room.floor != null && !room.floor.isEmpty()) {
+                sb.append(" | Piso ").append(room.floor);
+            }
+            if (room.code != null && !room.code.isEmpty()) {
+                sb.append("\nCódigo: ").append(room.code);
+            }
+            details.setText(sb.toString());
+        }
+
+        // FOTO: room_<id>.png em res/drawable
+        int photoResId = getResources().getIdentifier(
+                "room_" + room.id, "drawable", getPackageName());
+        if (photoResId != 0 && photo != null) {
+            photo.setImageResource(photoResId);
+        }
     }
 }

@@ -1,55 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/professor_detail_root"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
-    tools:context=".ui.ProfessorDetailActivity">
+    android:fillViewport="true">
 
-    <com.google.android.material.appbar.AppBarLayout
-        android:id="@+id/app_bar"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:fitsSystemWindows="true"
-        android:theme="@style/Theme.CampusGuide.AppBarOverlay">
+        android:orientation="vertical"
+        android:padding="16dp">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/detail_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            app:popupTheme="@style/Theme.CampusGuide.PopupOverlay" />
+        <!-- FOTO DO PROFESSOR -->
+        <ImageView
+            android:id="@+id/professor_photo"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="16dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_professor_placeholder" />
 
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <LinearLayout
+        <!-- Os campos abaixo são exemplos comuns; mantém/ajusta aos teus IDs -->
+        <TextView
+            android:id="@+id/professor_department"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="16dp">
+            android:textStyle="bold"
+            android:textSize="16sp"
+            android:text="Departamento" />
 
-            <TextView android:id="@+id/professor_department" style="@style/TextAppearance.AppCompat.Headline" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_courses" style="@style/TextAppearance.AppCompat.Subhead" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/professor_office"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Gabinete" />
 
-            <TextView android:text="Cadeiras" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_subjects" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/professor_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Email" />
 
-            <TextView android:text="Contacto" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_email" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_phone" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/professor_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Telefone/Extensão" />
 
-            <TextView android:text="Gabinete" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_office" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginBottom="16dp"/>
+        <TextView
+            android:id="@+id/professor_courses"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Cadeiras" />
 
-            <TextView android:text="Notas" style="@style/TextAppearance.AppCompat.Title" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
-            <TextView android:id="@+id/professor_notes" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+        <TextView
+            android:id="@+id/professor_notes"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="6dp"
+            android:text="Notas/Atendimento" />
 
-        </LinearLayout>
+        <!-- Padding extra para não colidir com a bottom bar -->
+        <Space
+            android:layout_width="match_parent"
+            android:layout_height="72dp" />
 
-    </androidx.core.widget.NestedScrollView>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>
