@@ -1,17 +1,23 @@
 <resources>
-    <!-- Paleta nova (Campus Guide) -->
-    <color name="cg_primary">#1976D2</color>
-    <color name="cg_primary_dark">#0D47A1</color>
-    <color name="cg_secondary">#43A047</color>
-    <color name="cg_secondary_dark">#2E7D32</color>
-    <color name="cg_accent">#FB8C00</color>
+    <color name="cg_primary">#1E3A5F</color>
+    <color name="cg_primary_dark">#13233B</color>
+    <color name="cg_secondary">#335C85</color>
+    <color name="cg_secondary_dark">#28476A</color>
+    <color name="cg_accent">#5DA9FF</color>
 
-    <color name="cg_background">#FAFAFA</color>
+    <color name="cg_background">#F5F7FA</color>
     <color name="cg_surface">#FFFFFF</color>
     <color name="cg_on_primary">#FFFFFF</color>
     <color name="cg_on_secondary">#FFFFFF</color>
-    <color name="cg_on_background">#212121</color>
-    <color name="cg_on_surface">#212121</color>
+    <color name="cg_on_background">#1A1A1A</color>
+    <color name="cg_on_surface">#1A1A1A</color>
+
+    <color name="purple_500">#6200EE</color>
+    <color name="purple_700">#3700B3</color>
+    <color name="purple_200">#BB86FC</color>
+
+    <color name="teal_200">#03DAC5</color>
+    <color name="teal_700">#018786</color>
 
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>

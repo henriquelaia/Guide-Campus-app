@@ -39,7 +39,7 @@ public class CampusMapFragment extends Fragment
 
     private List<LocationEntity> allLocations = new ArrayList<>();
 
-    // Ponto base (UBI / Covilhã) para centrar o mapa quando não há dados
+    // Ponto base para centrar o mapa quando não há dados
     private static final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
 
     @Nullable
@@ -99,6 +99,7 @@ public class CampusMapFragment extends Fragment
             }
             if (selected != null) {
                 moveCameraToLocation(selected);
+                showLocationDetails(selected.id);   // <<< abre o bottom sheet após autocomplete
             }
         });
     }
@@ -147,21 +148,27 @@ public class CampusMapFragment extends Fragment
         List<LocationEntity> results = locationDao.searchByName("%" + query + "%");
 
         if (!results.isEmpty()) {
-            moveCameraToLocation(results.get(0));
+            LocationEntity first = results.get(0);
+            moveCameraToLocation(first);
+            showLocationDetails(first.id);   // <<< abre bottom sheet após pesquisa manual
         } else {
             Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void showLocationDetails(int locationId) {
+        LocationDetailBottomSheet
+                .newInstance(locationId)
+                .show(getParentFragmentManager(), "location_detail");
     }
 
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         Integer locationId = (Integer) marker.getTag();
         if (locationId != null) {
-            LocationDetailBottomSheet
-                    .newInstance(locationId)
-                    .show(getParentFragmentManager(), null);
+            showLocationDetails(locationId);   // <<< usa o mesmo método
         }
-        // Devolvemos true para indicar que já tratámos o click (não mostrar InfoWindow default)
+        // true = já tratámos o evento (não mostrar InfoWindow default)
         return true;
     }
 }
