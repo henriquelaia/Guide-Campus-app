@@ -1,7 +1,13 @@
 package com.example.guide_campus_app.data;
 
+/**
+ * Esta classe serve para carregar os dados iniciais da aplicação.
+ */
 public class SampleData {
 
+    /**
+     * Este método verifica se a base de dados está vazia e, se estiver, adiciona os dados.
+     */
     public static void populateIfEmpty(CampusDatabase db) {
         if (db.locationDao().count() == 0) {
             populateLocations(db.locationDao());
@@ -14,6 +20,9 @@ public class SampleData {
         }
     }
 
+    /**
+     * Este método adiciona as localizações à base de dados.
+     */
     private static void populateLocations(LocationDao dao) {
         LocationEntity[] locations = {
             createLocation("Reitoria / Serviços Académicos", "Serviços centrais", "Polo II", "Órgãos de gestão da UBI e atendimento para matrículas, certidões, propinas, etc.", "Atendimento presencial dos Serviços Académicos. Outros serviços da Reitoria funcionam em horário administrativo.", 40.273369, -7.508931, "Dias úteis: 09h00–15h00", "Horário sujeito a alterações em épocas especiais.", "ubi_reitoria"),
@@ -38,9 +47,11 @@ public class SampleData {
         dao.insertAll(locations);
     }
 
+    /**
+     * Este método adiciona os professores à base de dados.
+     */
     private static void populateProfessors(ProfessorDao dao) {
         ProfessorEntity[] professors = {
-                // Nomes e emails fictícios
                 createProfessor("Ana Silva", "Departamento de Informática", "", "ana.silva@email.campus", "Ext. 1613", "Presidente do DI. Atendimento por marcação via e-mail ou Moodle.", "Engenharia Informática, Informática Web", "Bases de Dados, Aplicações sobre Bases de Dados, Sistemas de Gestão de Bases de Dados"),
                 createProfessor("Bruno Costa", "Departamento de Informática", "", "bruno.costa@email.campus", "Ext. 1614", "Diretor dos cursos Cisco (CCNA). Atendimento por marcação via e-mail ou Moodle.", "Engenharia Informática, Mestrado em Eng. Informática", "Redes de Computadores, Administração de Sistemas em Rede, Nuvem, Periferia e IoT"),
                 createProfessor("Carla Mendes", "Departamento de Informática", "", "carla.mendes@email.campus", "Ext. 1612", "Atendimento por marcação via e-mail ou Moodle.", "Engenharia Informática", "Programação"),
@@ -55,6 +66,9 @@ public class SampleData {
         dao.insertAll(professors);
     }
 
+    /**
+     * Este método adiciona as salas à base de dados.
+     */
     private static void populateRooms(RoomDao dao) {
         RoomEntity[] rooms = {
             createRoom("Anfiteatro da Parada", "Anfiteatro I | Cinubiteca", "I", "Faculdade de Artes e Letras / Parada", "anfiteatro", "Não indicado", "Anfiteatro principal da Parada, usado para receções a caloiros, conferências, etc.", 0.0, 0.0),
@@ -85,6 +99,9 @@ public class SampleData {
         dao.insertAll(rooms);
     }
 
+    /**
+     * Este método cria um objeto de localização.
+     */
     private static LocationEntity createLocation(String name, String type, String campus, String shortDesc, String details, double lat, double lon, String hours, String hoursNotes, String imageName) {
         LocationEntity loc = new LocationEntity();
         loc.name = name; loc.type = type; loc.campus = campus; loc.shortDescription = shortDesc; loc.details = details;
@@ -93,6 +110,9 @@ public class SampleData {
         return loc;
     }
 
+    /**
+     * Este método cria um objeto de professor.
+     */
     private static ProfessorEntity createProfessor(String name, String dept, String office, String email, String phone, String notes, String courses, String subjects) {
         ProfessorEntity prof = new ProfessorEntity();
         prof.name = name; prof.department = dept; prof.office = office; prof.email = email;
@@ -101,6 +121,9 @@ public class SampleData {
         return prof;
     }
 
+    /**
+     * Este método cria um objeto de sala.
+     */
     private static RoomEntity createRoom(String code, String name, String campus, String building, String type, String floor, String description, Double latitude, Double longitude) {
         RoomEntity room = new RoomEntity();
         room.code = code;

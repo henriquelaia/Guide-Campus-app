@@ -16,12 +16,22 @@ import com.example.guide_campus_app.data.ProfessorEntity;
 
 import java.util.List;
 
+/**
+ * Esta classe serve para adaptar os dados dos professores a uma lista visível no ecrã.
+ */
 public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
 
+    /**
+     * Este método é o construtor da classe.
+     * Prepara o adaptador com a lista de professores.
+     */
     public ProfessorAdapter(@NonNull Context context, @NonNull List<ProfessorEntity> professors) {
         super(context, 0, professors);
     }
 
+    /**
+     * Este método cria e preenche cada item da lista de professores.
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -41,6 +51,7 @@ public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
             nameView.setText(currentProfessor.name);
             departmentView.setText(currentProfessor.department);
 
+            // Aqui carrego a fotografia do professor.
             if (photoView != null) {
                 int photoResId = getPhotoResForProfessor(currentProfessor);
                 if (photoResId != 0) {
@@ -54,11 +65,13 @@ public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
         return listItemView;
     }
 
+    /**
+     * Este método descobre o nome do ficheiro da fotografia do professor.
+     */
     private int getPhotoResForProfessor(@NonNull ProfessorEntity professor) {
         Context context = getContext();
         if (context == null) return 0;
 
-        // Convenção: drawable/prof_<id>.png (ex.: prof_1.png, prof_2.png)
         String resourceName = "prof_" + professor.id;
 
         return context.getResources().getIdentifier(
@@ -68,6 +81,3 @@ public class ProfessorAdapter extends ArrayAdapter<ProfessorEntity> {
         );
     }
 }
-
-
-

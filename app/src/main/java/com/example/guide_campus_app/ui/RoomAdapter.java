@@ -16,12 +16,22 @@ import com.example.guide_campus_app.data.RoomEntity;
 
 import java.util.List;
 
+/**
+ * Esta classe serve para adaptar os dados das salas a uma lista visível no ecrã.
+ */
 public class RoomAdapter extends ArrayAdapter<RoomEntity> {
 
+    /**
+     * Este método é o construtor da classe.
+     * Prepara o adaptador com a lista de salas.
+     */
     public RoomAdapter(@NonNull Context context, @NonNull List<RoomEntity> rooms) {
         super(context, 0, rooms);
     }
 
+    /**
+     * Este método cria e preenche cada item da lista de salas.
+     */
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -38,23 +48,20 @@ public class RoomAdapter extends ArrayAdapter<RoomEntity> {
         TextView detailsView = listItemView.findViewById(R.id.room_list_details);
 
         if (currentRoom != null) {
-            // Nome + código
             nameView.setText(currentRoom.name + " (" + currentRoom.code + ")");
 
-            // Detalhes: Polo, edifício, piso
             String details = "Polo " + currentRoom.campus + " | " + currentRoom.building;
             if (currentRoom.floor != null && !currentRoom.floor.isEmpty()) {
                 details += " | Piso " + currentRoom.floor;
             }
             detailsView.setText(details);
 
-            // Foto (se existir imagem para esta sala)
+            // Aqui carrego a fotografia da sala.
             if (photoView != null) {
                 int photoResId = getPhotoResForRoom(currentRoom);
                 if (photoResId != 0) {
                     photoView.setImageResource(photoResId);
                 } else {
-                    // Placeholder genérico do Android
                     photoView.setImageResource(android.R.drawable.sym_def_app_icon);
                 }
             }
@@ -63,11 +70,13 @@ public class RoomAdapter extends ArrayAdapter<RoomEntity> {
         return listItemView;
     }
 
+    /**
+     * Este método descobre o nome do ficheiro da fotografia da sala.
+     */
     private int getPhotoResForRoom(@NonNull RoomEntity room) {
         Context context = getContext();
         if (context == null) return 0;
 
-        // Convenção: drawable/room_<id>.png (ex.: room_1.png, room_2.png)
         String resourceName = "room_" + room.id;
 
         return context.getResources().getIdentifier(

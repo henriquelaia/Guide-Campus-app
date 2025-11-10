@@ -16,10 +16,16 @@ import com.example.guide_campus_app.data.CampusDatabase;
 import com.example.guide_campus_app.data.LocationEntity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
+/**
+ * Esta classe serve para mostrar a janela com os detalhes de uma localização.
+ */
 public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
 
     private static final String ARG_LOCATION_ID = "location_id";
 
+    /**
+     * Este método cria uma nova instância da janela de detalhes.
+     */
     public static LocationDetailBottomSheet newInstance(int locationId) {
         LocationDetailBottomSheet fragment = new LocationDetailBottomSheet();
         Bundle args = new Bundle();
@@ -28,6 +34,9 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
         return fragment;
     }
 
+    /**
+     * Este método cria a vista do ecrã.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -36,6 +45,10 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
         return inflater.inflate(R.layout.bottom_sheet_location_detail, container, false);
     }
 
+    /**
+     * Este método é executado quando a vista é criada.
+     * Carrega os dados da localização e preenche a informação no ecrã.
+     */
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -44,10 +57,11 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
         TextView type = view.findViewById(R.id.location_type);
         TextView shortDescription = view.findViewById(R.id.location_short_description);
         Button detailsButton = view.findViewById(R.id.view_details_button);
-        ImageView imageView = view.findViewById(R.id.location_image); // opcional (se existir no XML)
+        ImageView imageView = view.findViewById(R.id.location_image);
 
         if (getArguments() != null) {
             int locationId = getArguments().getInt(ARG_LOCATION_ID);
+            // Aqui ligo à base de dados para obter os detalhes da localização.
             LocationEntity location = CampusDatabase
                     .getInstance(requireContext())
                     .locationDao()
@@ -58,7 +72,7 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
                 type.setText(location.type);
                 shortDescription.setText(location.shortDescription);
 
-                // Imagem (mesma lógica da Activity de detalhes)
+                // Carrega a imagem da localização, se existir.
                 if (imageView != null && location.imageName != null && !location.imageName.isEmpty()) {
                     int imageResId = getResources().getIdentifier(
                             location.imageName,
@@ -70,6 +84,7 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
                     }
                 }
 
+                // Se o botão for clicado, muda para o ecrã de detalhes completos.
                 detailsButton.setOnClickListener(v -> {
                     startActivity(LocationDetailActivity.newIntent(getContext(), locationId));
                     dismiss();

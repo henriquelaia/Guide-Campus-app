@@ -30,6 +30,9 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Esta classe serve para gerir o ecrã do mapa.
+ */
 public class CampusMapFragment extends Fragment
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
@@ -37,12 +40,13 @@ public class CampusMapFragment extends Fragment
     private LocationDao locationDao;
     private AutoCompleteTextView searchEditText;
     private ImageButton searchButton;
-
     private List<LocationEntity> allLocations = new ArrayList<>();
-
-    // Ponto base para centrar o mapa quando não há dados
     private static final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
 
+    /**
+     * Este método é executado quando o ecrã do mapa é criado.
+     * Prepara a base de dados, a barra de pesquisa e carrega o mapa.
+     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -51,15 +55,18 @@ public class CampusMapFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_campus_map, container, false);
 
+        // Aqui ligo à base de dados para obter as localizações.
         locationDao = CampusDatabase.getInstance(requireContext()).locationDao();
 
         searchEditText = view.findViewById(R.id.search_text);
         searchButton = view.findViewById(R.id.search_button);
 
+        // Aqui configuro a pesquisa com autocompletar.
         setupAutoComplete();
 
         searchButton.setOnClickListener(v -> searchLocation());
 
+        // Aqui carrego o mapa de forma assíncrona.
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -69,9 +76,11 @@ public class CampusMapFragment extends Fragment
         return view;
     }
 
+    /**
+     * Este método configura as sugestões de pesquisa.
+     */
     private void setupAutoComplete() {
         allLocations = locationDao.getAll();
-
         List<String> locationNames = new ArrayList<>();
         for (LocationEntity loc : allLocations) {
             if (loc != null && loc.name != null) {
@@ -88,7 +97,7 @@ public class CampusMapFragment extends Fragment
         searchEditText.setAdapter(adapter);
         searchEditText.setThreshold(1);
 
-        // Quando o utilizador escolhe uma sugestão no dropdown
+        // Se uma sugestão é clicada, centra o mapa e mostra os detalhes.
         searchEditText.setOnItemClickListener((parent, view, position, id) -> {
             String selectedName = (String) parent.getItemAtPosition(position);
             LocationEntity selected = null;
@@ -100,11 +109,15 @@ public class CampusMapFragment extends Fragment
             }
             if (selected != null) {
                 moveCameraToLocation(selected);
-                showLocationDetails(selected.id);   // <<< abre o bottom sheet após autocomplete
+                showLocationDetails(selected.id);
             }
         });
     }
 
+    /**
+     * Este método é executado quando o mapa está pronto.
+     * Adiciona os marcadores (pins) de cada localização no mapa.
+     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
@@ -140,12 +153,18 @@ public class CampusMapFragment extends Fragment
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
     }
 
+    /**
+     * Este método move a câmara para uma localização.
+     */
     private void moveCameraToLocation(@NonNull LocationEntity location) {
         if (mMap == null) return;
         LatLng latLng = new LatLng(location.latitude, location.longitude);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
     }
 
+    /**
+     * Este método faz a pesquisa da localização na base de dados.
+     */
     private void searchLocation() {
         String query = searchEditText.getText().toString().trim();
         if (query.isEmpty()) return;
@@ -155,28 +174,37 @@ public class CampusMapFragment extends Fragment
         if (!results.isEmpty()) {
             LocationEntity first = results.get(0);
             moveCameraToLocation(first);
-            showLocationDetails(first.id);   // <<< abre bottom sheet após pesquisa manual
+            showLocationDetails(first.id);
         } else {
             Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
         }
     }
 
+    /**
+     * Este método mostra a janela com os detalhes da localização.
+     */
     private void showLocationDetails(int locationId) {
         LocationDetailBottomSheet
                 .newInstance(locationId)
                 .show(getParentFragmentManager(), "location_detail");
     }
 
+    /**
+     * Este método é executado quando se clica num marcador no mapa.
+     */
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         Integer locationId = (Integer) marker.getTag();
         if (locationId != null) {
-            showLocationDetails(locationId);   // <<< usa o mesmo método
+            showLocationDetails(locationId);
         }
-        // true = já tratámos o evento (não mostrar InfoWindow default)
         return true;
     }
 
+    /**
+     * Este método define a cor do marcador.
+     * A cor varia consoante o tipo de local (residência, serviços, etc.) ou o polo.
+     */
     private float getMarkerColor(LocationEntity location) {
         if (location.type != null) {
             switch (location.type) {
@@ -191,7 +219,7 @@ public class CampusMapFragment extends Fragment
         }
         
         if (location.campus == null) {
-            return BitmapDescriptorFactory.HUE_RED; // Cor padrão para dados ausentes
+            return BitmapDescriptorFactory.HUE_RED;
         }
         switch (location.campus) {
             case "Polo I":
@@ -203,7 +231,7 @@ public class CampusMapFragment extends Fragment
             case "Polo IV":
                 return BitmapDescriptorFactory.HUE_VIOLET;
             default:
-                return BitmapDescriptorFactory.HUE_RED; // Uma cor de fallback
+                return BitmapDescriptorFactory.HUE_RED;
         }
     }
 }
