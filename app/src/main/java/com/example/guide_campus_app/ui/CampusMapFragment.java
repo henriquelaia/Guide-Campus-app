@@ -21,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -120,11 +121,15 @@ public class CampusMapFragment extends Fragment
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (LocationEntity location : locations) {
             LatLng latLng = new LatLng(location.latitude, location.longitude);
+            
+            float markerColor = getMarkerColor(location);
+
             Marker marker = mMap.addMarker(
                     new MarkerOptions()
                             .position(latLng)
                             .title(location.name)
                             .snippet(location.shortDescription)
+                            .icon(BitmapDescriptorFactory.defaultMarker(markerColor))
             );
             if (marker != null) {
                 marker.setTag(location.id);
@@ -170,5 +175,35 @@ public class CampusMapFragment extends Fragment
         }
         // true = já tratámos o evento (não mostrar InfoWindow default)
         return true;
+    }
+
+    private float getMarkerColor(LocationEntity location) {
+        if (location.type != null) {
+            switch (location.type) {
+                case "Residência SASUBI":
+                    return BitmapDescriptorFactory.HUE_GREEN;
+                case "Serviços":
+                case "Serviços centrais":
+                    return BitmapDescriptorFactory.HUE_ORANGE;
+                case "Biblioteca":
+                    return BitmapDescriptorFactory.HUE_YELLOW;
+            }
+        }
+        
+        if (location.campus == null) {
+            return BitmapDescriptorFactory.HUE_RED; // Cor padrão para dados ausentes
+        }
+        switch (location.campus) {
+            case "Polo I":
+                return BitmapDescriptorFactory.HUE_AZURE;
+            case "Polo II":
+                return BitmapDescriptorFactory.HUE_BLUE;
+            case "Polo III":
+                return BitmapDescriptorFactory.HUE_CYAN;
+            case "Polo IV":
+                return BitmapDescriptorFactory.HUE_VIOLET;
+            default:
+                return BitmapDescriptorFactory.HUE_RED; // Uma cor de fallback
+        }
     }
 }

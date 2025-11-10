@@ -10,6 +10,7 @@ public class LocationEntity {
 
     public String name;
     public String type;
+    public String campus; // Polo I, II, III, IV
     public String shortDescription;
     public String details;
     public double latitude;
