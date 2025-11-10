@@ -8,7 +8,7 @@ android {
 
     defaultConfig {
         applicationId = "com.example.guide_campus_app"
-        minSdk = 34
+        minSdk = 26
         targetSdk = 36
         versionCode = 1
         versionName = "1.0"
