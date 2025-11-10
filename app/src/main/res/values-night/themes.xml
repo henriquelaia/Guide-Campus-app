@@ -1,17 +1,17 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.CampusGuide" parent="Theme.MaterialComponents.DayNight.NoActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_200</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
+        <item name="colorPrimary">@color/cg_primary</item>
+        <item name="colorPrimaryVariant">@color/cg_primary_dark</item>
+        <item name="colorOnPrimary">@color/cg_on_primary</item>
+        <item name="colorSecondary">@color/cg_secondary</item>
+        <item name="colorSecondaryVariant">@color/cg_secondary_dark</item>
+        <item name="colorOnSecondary">@color/cg_on_secondary</item>
+        <item name="android:colorBackground">@color/cg_background</item>
+        <item name="colorSurface">@color/cg_surface</item>
+        <item name="colorOnSurface">@color/cg_on_surface</item>
+        <item name="colorOnBackground">@color/cg_on_background</item>
+        <item name="colorAccent">@color/cg_accent</item>
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
     </style>
 
     <style name="Theme.CampusGuide.NoActionBar" parent="Theme.CampusGuide">
@@ -22,5 +22,4 @@
     <style name="Theme.CampusGuide.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.CampusGuide.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
 </resources>

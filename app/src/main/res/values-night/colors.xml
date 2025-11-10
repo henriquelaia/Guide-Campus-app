@@ -1,0 +1,7 @@
+<resources>
+    <!-- Dark Theme Overrides for Campus Guide -->
+    <color name="cg_background">#121212</color>
+    <color name="cg_surface">#1E1E1E</color>
+    <color name="cg_on_background">#E0E0E0</color>
+    <color name="cg_on_surface">#FFFFFF</color>
+</resources>
