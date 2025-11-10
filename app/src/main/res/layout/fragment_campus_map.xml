@@ -1,26 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
+    <!-- Barra de pesquisa com autocomplete -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:padding="8dp">
 
-        <EditText
+        <AutoCompleteTextView
             android:id="@+id/search_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Pesquisar local..." />
+            android:hint="Pesquisar local (Reitoria, Biblioteca, …)"
+            android:inputType="text"
+            android:imeOptions="actionSearch"
+            android:completionThreshold="1" />
 
         <ImageButton
             android:id="@+id/search_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:contentDescription="Pesquisar"
             android:src="@android:drawable/ic_menu_search" />
     </LinearLayout>
 

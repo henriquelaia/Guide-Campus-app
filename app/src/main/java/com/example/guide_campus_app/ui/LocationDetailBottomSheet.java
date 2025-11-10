@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -29,7 +30,9 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         return inflater.inflate(R.layout.bottom_sheet_location_detail, container, false);
     }
 
@@ -41,20 +44,35 @@ public class LocationDetailBottomSheet extends BottomSheetDialogFragment {
         TextView type = view.findViewById(R.id.location_type);
         TextView shortDescription = view.findViewById(R.id.location_short_description);
         Button detailsButton = view.findViewById(R.id.view_details_button);
+        ImageView imageView = view.findViewById(R.id.location_image); // opcional (se existir no XML)
 
         if (getArguments() != null) {
             int locationId = getArguments().getInt(ARG_LOCATION_ID);
-            LocationEntity location = CampusDatabase.getInstance(getContext()).locationDao().getById(locationId);
+            LocationEntity location = CampusDatabase
+                    .getInstance(requireContext())
+                    .locationDao()
+                    .getById(locationId);
 
             if (location != null) {
                 name.setText(location.name);
                 type.setText(location.type);
                 shortDescription.setText(location.shortDescription);
 
+                // Imagem (mesma lógica da Activity de detalhes)
+                if (imageView != null && location.imageName != null && !location.imageName.isEmpty()) {
+                    int imageResId = getResources().getIdentifier(
+                            location.imageName,
+                            "drawable",
+                            requireContext().getPackageName()
+                    );
+                    if (imageResId != 0) {
+                        imageView.setImageResource(imageResId);
+                    }
+                }
+
                 detailsButton.setOnClickListener(v -> {
-                    // Abrir a nova Activity de detalhes
                     startActivity(LocationDetailActivity.newIntent(getContext(), locationId));
-                    dismiss(); // Fechar o bottom sheet
+                    dismiss();
                 });
             }
         }

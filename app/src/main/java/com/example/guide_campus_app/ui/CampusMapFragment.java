@@ -4,7 +4,8 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -25,36 +26,81 @@ import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class CampusMapFragment extends Fragment implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+public class CampusMapFragment extends Fragment
+        implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private LocationDao locationDao;
-    private EditText searchEditText;
+    private AutoCompleteTextView searchEditText;
     private ImageButton searchButton;
 
-    // Coordenadas do Polo I da UBI para centrar o mapa
-    private final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
+    private List<LocationEntity> allLocations = new ArrayList<>();
+
+    // Ponto base (UBI / Covilhã) para centrar o mapa quando não há dados
+    private static final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_campus_map, container, false);
 
-        locationDao = CampusDatabase.getInstance(getContext()).locationDao();
+        locationDao = CampusDatabase.getInstance(requireContext()).locationDao();
 
         searchEditText = view.findViewById(R.id.search_text);
         searchButton = view.findViewById(R.id.search_button);
 
-        SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
+        setupAutoComplete();
+
+        searchButton.setOnClickListener(v -> searchLocation());
+
+        SupportMapFragment mapFragment =
+                (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
             mapFragment.getMapAsync(this);
         }
 
-        searchButton.setOnClickListener(v -> searchLocation());
-
         return view;
+    }
+
+    private void setupAutoComplete() {
+        allLocations = locationDao.getAll();
+
+        List<String> locationNames = new ArrayList<>();
+        for (LocationEntity loc : allLocations) {
+            if (loc != null && loc.name != null) {
+                locationNames.add(loc.name);
+            }
+        }
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                requireContext(),
+                android.R.layout.simple_dropdown_item_1line,
+                locationNames
+        );
+
+        searchEditText.setAdapter(adapter);
+        searchEditText.setThreshold(1);
+
+        // Quando o utilizador escolhe uma sugestão no dropdown
+        searchEditText.setOnItemClickListener((parent, view, position, id) -> {
+            String selectedName = (String) parent.getItemAtPosition(position);
+            LocationEntity selected = null;
+            for (LocationEntity loc : allLocations) {
+                if (loc != null && selectedName.equals(loc.name)) {
+                    selected = loc;
+                    break;
+                }
+            }
+            if (selected != null) {
+                moveCameraToLocation(selected);
+            }
+        });
     }
 
     @Override
@@ -62,29 +108,36 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
 
-        // Centrar imediatamente o mapa na UBI com um zoom razoável
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UBI_CENTRAL_POINT, 15f));
-
-        loadLocationsOnMap();
-    }
-
-    private void loadLocationsOnMap() {
         List<LocationEntity> locations = locationDao.getAll();
-        if (locations == null || locations.isEmpty()) return;
+        allLocations = locations;
 
-        // Este código irá ajustar o zoom para mostrar todos os pontos depois de carregar
+        if (locations == null || locations.isEmpty()) {
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UBI_CENTRAL_POINT, 16f));
+            return;
+        }
+
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (LocationEntity location : locations) {
             LatLng latLng = new LatLng(location.latitude, location.longitude);
-            Marker marker = mMap.addMarker(new MarkerOptions().position(latLng).title(location.name).snippet(location.shortDescription));
+            Marker marker = mMap.addMarker(
+                    new MarkerOptions()
+                            .position(latLng)
+                            .title(location.name)
+                            .snippet(location.shortDescription)
+            );
             if (marker != null) {
                 marker.setTag(location.id);
             }
             builder.include(latLng);
         }
 
-        // Anima a câmara para mostrar todos os marcadores com um padding
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+    }
+
+    private void moveCameraToLocation(@NonNull LocationEntity location) {
+        if (mMap == null) return;
+        LatLng latLng = new LatLng(location.latitude, location.longitude);
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
     }
 
     private void searchLocation() {
@@ -94,9 +147,7 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
         List<LocationEntity> results = locationDao.searchByName("%" + query + "%");
 
         if (!results.isEmpty()) {
-            LocationEntity firstResult = results.get(0);
-            LatLng latLng = new LatLng(firstResult.latitude, firstResult.longitude);
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17));
+            moveCameraToLocation(results.get(0));
         } else {
             Toast.makeText(getContext(), "Sem resultados", Toast.LENGTH_SHORT).show();
         }
@@ -106,8 +157,11 @@ public class CampusMapFragment extends Fragment implements OnMapReadyCallback, G
     public boolean onMarkerClick(@NonNull Marker marker) {
         Integer locationId = (Integer) marker.getTag();
         if (locationId != null) {
-            LocationDetailBottomSheet.newInstance(locationId).show(getParentFragmentManager(), null);
+            LocationDetailBottomSheet
+                    .newInstance(locationId)
+                    .show(getParentFragmentManager(), null);
         }
-        return true; // Consume o evento para não mostrar a info window default
+        // Devolvemos true para indicar que já tratámos o click (não mostrar InfoWindow default)
+        return true;
     }
 }

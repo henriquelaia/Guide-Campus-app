@@ -5,6 +5,15 @@
     android:orientation="vertical"
     android:padding="16dp">
 
+    <ImageView
+        android:id="@+id/location_image"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/ic_location_placeholder"
+        android:layout_marginBottom="12dp" />
+
     <TextView
         android:id="@+id/location_name"
         android:layout_width="wrap_content"
@@ -16,14 +25,13 @@
         android:id="@+id/location_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+        android:layout_marginTop="4dp" />
 
     <TextView
         android:id="@+id/location_short_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+        android:layout_marginTop="8dp" />
 
     <Button
         android:id="@+id/view_details_button"
@@ -31,6 +39,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end"
-        android:text="Ver Detalhes" />
+        android:text="Ver detalhes" />
 
 </LinearLayout>

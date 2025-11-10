@@ -17,6 +17,11 @@ public class LocationEntity {
 
     // Novos campos
     public String operatingHours; // Ex: "Seg-Sex: 09h-18h"
-    public String hoursNotes; // Ex: "Horário de Verão: 09h-13h"
-    public String imageName;      // Nome do drawable da imagem (ex: "foto_engenharia")
+    public String hoursNotes;     // Ex: "Horário de Verão: 09h-13h"
+    public String imageName;      // Nome do drawable (ex: "ubi_reitoria")
+
+    @Override
+    public String toString() {
+        return name != null ? name : "";
+    }
 }
