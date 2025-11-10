@@ -16,10 +16,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:hint="Pesquisar local (Reitoria, Biblioteca, …)"
+            android:hint="Procurar localização..."
             android:inputType="text"
-            android:imeOptions="actionSearch"
-            android:completionThreshold="1" />
+            android:padding="8dp" />
 
         <ImageButton
             android:id="@+id/search_button"
@@ -28,6 +27,87 @@
             android:contentDescription="Pesquisar"
             android:src="@android:drawable/ic_menu_search" />
     </LinearLayout>
+
+    <!-- LEGENDA DAS CORES DO MAPA -->
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingStart="8dp"
+        android:paddingEnd="8dp"
+        android:paddingBottom="4dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <!-- Usamos o símbolo ● com a cor do marcador -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Residências SASUBI"
+                android:textSize="12sp"
+                android:textColor="#2E7D32"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Serviços"
+                android:textSize="12sp"
+                android:textColor="#EF6C00"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Bibliotecas"
+                android:textSize="12sp"
+                android:textColor="#FBC02D"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Polo I"
+                android:textSize="12sp"
+                android:textColor="#03A9F4"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Polo II"
+                android:textSize="12sp"
+                android:textColor="#1976D2"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Polo III"
+                android:textSize="12sp"
+                android:textColor="#00BCD4"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Polo IV"
+                android:textSize="12sp"
+                android:textColor="#9C27B0"
+                android:paddingEnd="12dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="● Outros"
+                android:textSize="12sp"
+                android:textColor="#B71C1C"
+                android:paddingEnd="12dp" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/map"
