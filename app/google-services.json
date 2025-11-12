@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "134812139440",
+    "project_id": "guide-app-ubi",
+    "storage_bucket": "guide-app-ubi.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:134812139440:android:f560c07c25fb3459492075",
+        "android_client_info": {
+          "package_name": "com.example.guide_campus_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDgy8DaRhx4iihUa01OtLuIV5gKAmHIqfk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
