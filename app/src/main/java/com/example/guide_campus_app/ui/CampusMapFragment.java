@@ -1,6 +1,7 @@
 package com.example.guide_campus_app.ui;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,8 +15,6 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.guide_campus_app.R;
-import com.example.guide_campus_app.data.CampusDatabase;
-import com.example.guide_campus_app.data.LocationDao;
 import com.example.guide_campus_app.data.LocationEntity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -30,23 +29,21 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Esta classe serve para gerir o ecrã do mapa.
- */
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CampusMapFragment extends Fragment
         implements OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
 
+    private static final String TAG = "CampusMapFragment";
     private GoogleMap mMap;
-    private LocationDao locationDao;
+    private ApiService apiService;
     private AutoCompleteTextView searchEditText;
     private ImageButton searchButton;
     private List<LocationEntity> allLocations = new ArrayList<>();
     private static final LatLng UBI_CENTRAL_POINT = new LatLng(40.2804, -7.5086);
 
-    /**
-     * Este método é executado quando o ecrã do mapa é criado.
-     * Prepara a base de dados, a barra de pesquisa e carrega o mapa.
-     */
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,18 +52,14 @@ public class CampusMapFragment extends Fragment
 
         View view = inflater.inflate(R.layout.fragment_campus_map, container, false);
 
-        // Aqui ligo à base de dados para obter as localizações.
-        locationDao = CampusDatabase.getInstance(requireContext()).locationDao();
+        apiService = ApiClient.getClient().create(ApiService.class);
 
         searchEditText = view.findViewById(R.id.search_text);
         searchButton = view.findViewById(R.id.search_button);
-
-        // Aqui configuro a pesquisa com autocompletar.
-        setupAutoComplete();
-
         searchButton.setOnClickListener(v -> searchLocation());
 
-        // Aqui carrego o mapa de forma assíncrona.
+        fetchLocationsAndSetupUi();
+
         SupportMapFragment mapFragment =
                 (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         if (mapFragment != null) {
@@ -76,11 +69,34 @@ public class CampusMapFragment extends Fragment
         return view;
     }
 
-    /**
-     * Este método configura as sugestões de pesquisa.
-     */
+    private void fetchLocationsAndSetupUi() {
+        apiService.getLocations().enqueue(new Callback<List<LocationEntity>>() {
+            @Override
+            public void onResponse(@NonNull Call<List<LocationEntity>> call, @NonNull Response<List<LocationEntity>> response) {
+                if (response.isSuccessful() && response.body() != null && getActivity() != null) {
+                    allLocations = response.body();
+                    setupAutoComplete();
+                    if (mMap != null) {
+                        addMarkersToMap(allLocations);
+                    }
+                } else {
+                    Log.e(TAG, "Failed to get locations from API. Code: " + response.code());
+                    Toast.makeText(getContext(), "Failed to load locations", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(@NonNull Call<List<LocationEntity>> call, @NonNull Throwable t) {
+                Log.e(TAG, "API call failed: " + t.getMessage());
+                if (getContext() != null) {
+                    Toast.makeText(getContext(), "Network error. Check connection.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void setupAutoComplete() {
-        allLocations = locationDao.getAll();
+        if (getContext() == null) return;
         List<String> locationNames = new ArrayList<>();
         for (LocationEntity loc : allLocations) {
             if (loc != null && loc.name != null) {
@@ -97,44 +113,37 @@ public class CampusMapFragment extends Fragment
         searchEditText.setAdapter(adapter);
         searchEditText.setThreshold(1);
 
-        // Se uma sugestão é clicada, centra o mapa e mostra os detalhes.
         searchEditText.setOnItemClickListener((parent, view, position, id) -> {
             String selectedName = (String) parent.getItemAtPosition(position);
-            LocationEntity selected = null;
             for (LocationEntity loc : allLocations) {
                 if (loc != null && selectedName.equals(loc.name)) {
-                    selected = loc;
+                    moveCameraToLocation(loc);
+                    showLocationDetails(loc.id);
                     break;
                 }
-            }
-            if (selected != null) {
-                moveCameraToLocation(selected);
-                showLocationDetails(selected.id);
             }
         });
     }
 
-    /**
-     * Este método é executado quando o mapa está pronto.
-     * Adiciona os marcadores (pins) de cada localização no mapa.
-     */
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
 
-        List<LocationEntity> locations = locationDao.getAll();
-        allLocations = locations;
-
-        if (locations == null || locations.isEmpty()) {
+        if (allLocations != null && !allLocations.isEmpty()) {
+            addMarkersToMap(allLocations);
+        } else {
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(UBI_CENTRAL_POINT, 16f));
-            return;
         }
+    }
+
+    private void addMarkersToMap(@NonNull List<LocationEntity> locations) {
+        if (mMap == null || locations.isEmpty()) return;
+        mMap.clear();
 
         LatLngBounds.Builder builder = new LatLngBounds.Builder();
         for (LocationEntity location : locations) {
             LatLng latLng = new LatLng(location.latitude, location.longitude);
-            
             float markerColor = getMarkerColor(location);
 
             Marker marker = mMap.addMarker(
@@ -153,23 +162,22 @@ public class CampusMapFragment extends Fragment
         mMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
     }
 
-    /**
-     * Este método move a câmara para uma localização.
-     */
     private void moveCameraToLocation(@NonNull LocationEntity location) {
         if (mMap == null) return;
         LatLng latLng = new LatLng(location.latitude, location.longitude);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17f));
     }
 
-    /**
-     * Este método faz a pesquisa da localização na base de dados.
-     */
     private void searchLocation() {
-        String query = searchEditText.getText().toString().trim();
+        String query = searchEditText.getText().toString().trim().toLowerCase();
         if (query.isEmpty()) return;
 
-        List<LocationEntity> results = locationDao.searchByName("%" + query + "%");
+        List<LocationEntity> results = new ArrayList<>();
+        for (LocationEntity loc : allLocations) {
+            if (loc.name != null && loc.name.toLowerCase().contains(query)) {
+                results.add(loc);
+            }
+        }
 
         if (!results.isEmpty()) {
             LocationEntity first = results.get(0);
@@ -180,18 +188,14 @@ public class CampusMapFragment extends Fragment
         }
     }
 
-    /**
-     * Este método mostra a janela com os detalhes da localização.
-     */
     private void showLocationDetails(int locationId) {
-        LocationDetailBottomSheet
-                .newInstance(locationId)
-                .show(getParentFragmentManager(), "location_detail");
+        if (getParentFragmentManager() != null) {
+            LocationDetailBottomSheet
+                    .newInstance(locationId)
+                    .show(getParentFragmentManager(), "location_detail");
+        }
     }
 
-    /**
-     * Este método é executado quando se clica num marcador no mapa.
-     */
     @Override
     public boolean onMarkerClick(@NonNull Marker marker) {
         Integer locationId = (Integer) marker.getTag();
@@ -201,10 +205,6 @@ public class CampusMapFragment extends Fragment
         return true;
     }
 
-    /**
-     * Este método define a cor do marcador.
-     * A cor varia consoante o tipo de local (residência, serviços, etc.) ou o polo.
-     */
     private float getMarkerColor(LocationEntity location) {
         if (location.type != null) {
             switch (location.type) {
@@ -217,7 +217,7 @@ public class CampusMapFragment extends Fragment
                     return BitmapDescriptorFactory.HUE_YELLOW;
             }
         }
-        
+
         if (location.campus == null) {
             return BitmapDescriptorFactory.HUE_RED;
         }
