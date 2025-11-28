@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "name": "João Muranho",
+        "department": "Departamento de Informática",
+        "office": "",
+        "email": "jmuranho@ubi.pt",
+        "phone": "Ext. 1613",
+        "notes": "Presidente do DI. Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Engenharia Informática, Informática Web",
+        "subjects": "Bases de Dados, Aplicações sobre Bases de Dados, Sistemas de Gestão de Bases de Dados"
+    },
+    {
+        "id": 2,
+        "name": "Bruno Silva",
+        "department": "Departamento de Informática",
+        "office": "",
+        "email": "brunosilva@ubi.pt",
+        "phone": "Ext. 1614",
+        "notes": "Diretor dos cursos Cisco (CCNA). Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Engenharia Informática, Mestrado em Eng. Informática",
+        "subjects": "Redes de Computadores, Administração de Sistemas em Rede, Nuvem, Periferia e IoT"
+    },
+    {
+        "id": 3,
+        "name": "Pedro Almeida",
+        "department": "Departamento de Informática",
+        "office": "",
+        "email": "palmeida@ubi.pt",
+        "phone": "Ext. 1612",
+        "notes": "Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Engenharia Informática",
+        "subjects": "Programação"
+    },
+    {
+        "id": 4,
+        "name": "Maria Eugénia Ferrão",
+        "department": "Departamento de Matemática",
+        "office": "",
+        "email": "meferrao@ubi.pt",
+        "phone": "",
+        "notes": "Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Gestão, Economia, Ciências Sociais",
+        "subjects": "Estatística Aplicada à Gestão, Probabilidades e Estatística, Modelos de Regressão"
+    },
+    {
+        "id": 5,
+        "name": "Jorge Gama",
+        "department": "Departamento de Matemática",
+        "office": "",
+        "email": "jgama@ubi.pt",
+        "phone": "",
+        "notes": "Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Psicologia, Saúde, Gestão",
+        "subjects": "Bioestatística Aplicada, Estatística Aplicada à Psicologia I, Análise de Dados Multivariados"
+    },
+    {
+        "id": 6,
+        "name": "Deolinda Mendes",
+        "department": "Departamento de Matemática",
+        "office": "",
+        "email": "imendes@ubi.pt",
+        "phone": "",
+        "notes": "Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Matemática, Engenharias",
+        "subjects": "Álgebra Linear, Álgebra I, Álgebra II"
+    },
+    {
+        "id": 7,
+        "name": "Alcino Couto",
+        "department": "Departamento de Gestão e Economia",
+        "office": "Gab. 3.04 (FCSH)",
+        "email": "acouto@ubi.pt",
+        "phone": "Ext. 3859",
+        "notes": "Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Economia, Gestão",
+        "subjects": "Comércio e Desenvolvimento Internacional, História Económica, Fundamentos de Economia"
+    },
+    {
+        "id": 8,
+        "name": "António Marques",
+        "department": "Departamento de Gestão e Economia",
+        "office": "Gab. 3.19 (FCSH)",
+        "email": "amarques@ubi.pt",
+        "phone": "Ext. 4040",
+        "notes": "Diretor do curso de Economia. Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Economia, Mestrado em Economia",
+        "subjects": "Economia da Energia, Microeconomia III, Tópicos de Microeconomia, Economia Industrial"
+    },
+    {
+        "id": 9,
+        "name": "Henrique Pereira",
+        "department": "Departamento de Psicologia e Educação",
+        "office": "",
+        "email": "hpereira@ubi.pt",
+        "phone": "Ext. 4819",
+        "notes": "Presidente do DPE. Atendimento por marcação via e-mail ou Moodle.",
+        "courses": "Mestrado em Psicologia Clínica e da Saúde",
+        "subjects": "Investigação e Análise Quantitativa, Psicologia da Sexualidade, Intervenção Psicodinâmica"
+    },
+    {
+        "id": 10,
+        "name": "Rui Sousa",
+        "department": "Departamento de Ciências Médicas",
+        "office": "",
+        "email": "rmgcms@ubi.pt",
+        "phone": "",
+        "notes": "Atendimento por marcação via e-mail, Moodle ou secretaria da FCS.",
+        "courses": "Medicina",
+        "subjects": "Unidades curriculares do Mestrado Integrado em Medicina"
+    }
+]

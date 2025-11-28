@@ -1,0 +1,122 @@
+[
+    {
+        "id": 1,
+        "name": "Reitoria / Serviços Académicos",
+        "type": "Serviços centrais",
+        "shortDescription": "Órgãos de gestão da UBI e atendimento para matrículas, certidões, propinas, etc.",
+        "details": "Atendimento presencial dos Serviços Académicos. Outros serviços da Reitoria funcionam em horário administrativo.",
+        "latitude": 40.273369,
+        "longitude": -7.508931,
+        "operatingHours": "Dias úteis: 09h00–15h00",
+        "hoursNotes": "Horário sujeito a alterações em épocas especiais.",
+        "imageName": "ubi_reitoria"
+    },
+    {
+        "id": 2,
+        "name": "Biblioteca Central (Polo I)",
+        "type": "Biblioteca",
+        "shortDescription": "Biblioteca principal da UBI, com sala de leitura, salas de estudo 24h e bar.",
+        "details": "Bar da Biblioteca: 08h30–23h (dias úteis; fins de semana 09h–21h quando em funcionamento).",
+        "latitude": 40.277849,
+        "longitude": -7.507246,
+        "operatingHours": "Sala de leitura: 09h–20h (dias úteis). Salas de estudo: 24/7.",
+        "hoursNotes": "Horários podem variar em férias ou exames.",
+        "imageName": "ubi_biblioteca_central"
+    },
+    {
+        "id": 3,
+        "name": "Biblioteca FCSH (Polo IV)",
+        "type": "Biblioteca",
+        "shortDescription": "Serve os cursos de ciências sociais, gestão, economia, psicologia, etc.",
+        "details": "Bar FCSH: 08h–19h (dias úteis; sábados 08h–13h quando em funcionamento).",
+        "latitude": 40.288619,
+        "longitude": -7.515291,
+        "operatingHours": "Segunda a sexta: 09h–20h",
+        "hoursNotes": "Confirmar horários em épocas especiais.",
+        "imageName": "ubi_biblioteca_fcsh"
+    },
+    {
+        "id": 4,
+        "name": "Biblioteca FCS (Polo III)",
+        "type": "Biblioteca",
+        "shortDescription": "Apoia Medicina, Ciências Biomédicas, Optometria, etc.",
+        "details": "Bar FCS: 08h30–18h (dias úteis).",
+        "latitude": 40.268079,
+        "longitude": -7.493597,
+        "operatingHours": "Segunda a sexta: 09h–20h",
+        "hoursNotes": "Confirmar horários em épocas especiais.",
+        "imageName": "ubi_biblioteca_fcs"
+    },
+    {
+        "id": 5,
+        "name": "Faculdade de Engenharia (Polo I)",
+        "type": "Faculdade / Departamentos",
+        "shortDescription": "Departamentos de Eng. Eletromecânica, Civil, Aeroespacial, etc.",
+        "details": "Bar da Faculdade de Engenharia: 08h–18h (dias úteis).",
+        "latitude": 40.278511,
+        "longitude": -7.511747,
+        "operatingHours": "Aulas conforme horário do curso",
+        "hoursNotes": "Consultar site/secretaria para detalhes.",
+        "imageName": "ubi_bloco_engenharias"
+    },
+    {
+        "id": 6,
+        "name": "Faculdade de Ciências da Saúde (Polo III)",
+        "type": "Faculdade",
+        "shortDescription": "Cursos de Medicina, Biomedicina, Optometria, etc.",
+        "details": "Serviços da faculdade em funcionamento em dias úteis, horário administrativo.",
+        "latitude": 40.267575,
+        "longitude": -7.495036,
+        "operatingHours": "Aulas conforme horário do curso",
+        "hoursNotes": "Consultar site/secretaria para detalhes.",
+        "imageName": "ubi_fcs"
+    },
+    {
+        "id": 7,
+        "name": "Faculdade de Ciências Sociais e Humanas (Polo IV)",
+        "type": "Faculdade",
+        "shortDescription": "Cursos de Gestão, Economia, Psicologia, Sociologia, etc.",
+        "details": "Serviços em dias úteis (horário administrativo).",
+        "latitude": 40.288736,
+        "longitude": -7.515106,
+        "operatingHours": "Aulas conforme horário de curso",
+        "hoursNotes": "Consultar site/secretaria para detalhes.",
+        "imageName": "ubi_fcsh"
+    },
+    {
+        "id": 8,
+        "name": "Departamento de Matemática / CIC-UBI (Polo I)",
+        "type": "Departamento / Investigação",
+        "shortDescription": "Departamentos de Matemática e áreas afins; centro de investigação.",
+        "details": "Atendimento de secretariado em dias úteis (horário administrativo).",
+        "latitude": 40.277864,
+        "longitude": -7.508972,
+        "operatingHours": "Aulas conforme horário",
+        "hoursNotes": "Consultar site/secretaria para detalhes.",
+        "imageName": "ubi_dep_matematica"
+    },
+    {
+        "id": 9,
+        "name": "Residência Universitária Pedro Álvares Cabral (PAC)",
+        "type": "Residência SASUBI",
+        "shortDescription": "Uma das principais residências SASUBI, junto ao Polo IV.",
+        "details": "Atendimento administrativo: dias úteis, horário de expediente.",
+        "latitude": 40.286389,
+        "longitude": -7.511944,
+        "operatingHours": "Acesso para residentes: 24h/24",
+        "hoursNotes": "Confirmar horário administrativo localmente.",
+        "imageName": "ubi_residencia_pac"
+    },
+    {
+        "id": 10,
+        "name": "Centro de Apoio Médico e Desportivo (Polo II)",
+        "type": "Saúde / Apoio ao estudante",
+        "shortDescription": "Serviços de apoio psicológico, médico e desportivo (SASUBI).",
+        "details": "Marcação feita pelos canais SASUBI (online/telefone).",
+        "latitude": 40.275039,
+        "longitude": -7.507286,
+        "operatingHours": "Atendimento por marcação (seg-sex)",
+        "hoursNotes": "Serviço não é de 'porta aberta'.",
+        "imageName": "ubi_centro_apoio_medico"
+    }
+]
